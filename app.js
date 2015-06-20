@@ -53,6 +53,9 @@ app.use('/store', function(req, res, next) {
 app.post('/store', function(req, res) {
   spotifyApi.refreshAccessToken()
     .then(function(data) {
+      if (req.body.text.match(/(kuhn|bier|hawaii|schlager)/)) {
+        return res.send('Could not find that track.');
+      }
       spotifyApi.searchTracks(req.body.text)
         .then(function(data) {
           var results = data.body.tracks.items;
